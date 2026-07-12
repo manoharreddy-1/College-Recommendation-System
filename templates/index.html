@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP EAPCET 2024 College Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3c72;
+            --primary-hover: #2a5298;
+            --bg-main: #f4f6f9;
+            --bg-card: #ffffff;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border-color: #e2e8f0;
+            
+            --safe-color: #2e7d32;
+            --safe-bg: #e8f5e9;
+            --moderate-color: #e65100;
+            --moderate-bg: #fff3e0;
+            --dream-color: #c62828;
+            --dream-bg: #ffebee;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-control:focus {
+            border-color: var(--primary);
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .gender-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Checkbox Scrollable List styling */
+        .list-container {
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #fafbfc;
+        }
+
+        .list-search {
+            margin-bottom: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+        }
+
+        .list-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 4px 0;
+            cursor: pointer;
+            font-size: 0.88rem;
+        }
+
+        .list-item input {
+            margin-top: 3px;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(30, 60, 114, 0.15);
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            box-shadow: 0 6px 12px rgba(30, 60, 114, 0.25);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Results view styling */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1.5px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .results-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .search-box-container {
+            position: relative;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .results-search {
+            padding-left: 32px;
+        }
+
+        .placeholder-message {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-muted);
+        }
+
+        .placeholder-message h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        /* Table styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #fafbfc;
+            color: #4a5568;
+            font-weight: 600;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--border-color);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background-color: #edf2f7;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .badge-safe {
+            color: var(--safe-color);
+            background-color: var(--safe-bg);
+        }
+
+        .badge-moderate {
+            color: var(--moderate-color);
+            background-color: var(--moderate-bg);
+        }
+
+        .badge-dream {
+            color: var(--dream-color);
+            background-color: var(--dream-bg);
+        }
+
+        .badge-ai {
+            color: #3182ce;
+            background-color: #ebf8ff;
+            border: 1px solid #bee3f8;
+            font-size: 0.7rem;
+            margin-left: 6px;
+        }
+
+        /* Stats counters */
+        .stats-summary {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 140px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #fafbfc;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Loader */
+        .loader-container {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🎓 AP EAPCET College Predictor</h1>
+        <p>Enter your details below to predict and view all available colleges based on 2024 cutoffs</p>
+    </header>
+
+    <div class="main-layout">
+        <!-- Input Sidebar -->
+        <div class="card sidebar">
+            <form id="predictor-form">
+                <!-- 1. AP EAPCET Rank -->
+                <div class="form-group">
+                    <label for="rank">1. AP EAPCET Rank</label>
+                    <input type="number" id="rank" name="rank" class="input-control" min="1" max="300000" placeholder="e.g. 25000" required>
+                </div>
+
+                <!-- 2. Caste Dropdown -->
+                <div class="form-group">
+                    <label for="caste">2. Caste Category</label>
+                    <select id="caste" name="caste" class="input-control" required>
+                        <option value="OC">OC (Open Category)</option>
+                        <option value="OC-EWS">OC-EWS (Economically Weaker Section)</option>
+                        <option value="BC-A">BC-A (Backward Classes Group A)</option>
+                        <option value="BC-B">BC-B (Backward Classes Group B)</option>
+                        <option value="BC-C">BC-C (Backward Classes Group C)</option>
+                        <option value="BC-D">BC-D (Backward Classes Group D)</option>
+                        <option value="BC-E">BC-E (Backward Classes Group E)</option>
+                        <option value="SC">SC (Scheduled Castes)</option>
+                        <option value="ST">ST (Scheduled Tribes)</option>
+                    </select>
+                </div>
+
+                <!-- 3. Gender -->
+                <div class="form-group">
+                    <label>3. Gender</label>
+                    <div class="gender-options">
+                        <label><input type="radio" name="gender" value="Male" checked> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                    </div>
+                </div>
+
+                <!-- 5. Districts selection -->
+                <div class="form-group">
+                    <label>5. Districts to Study</label>
+                    <div class="list-actions">
+                        <button type="button" class="btn-link" onclick="selectAll('district-list', true)">Select All</button>
+                        <button type="button" class="btn-link" onclick="selectAll('district-list', false)">Clear All</button>
+                    </div>
+                    <div id="district-list" class="list-container">
+                        {% for dist_code, dist_name in districts.items() %}
+                        <label class="list-item">
+                            <input type="checkbox" name="districts" value="{{ dist_code }}"> {{ dist_name }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 4. Branches selection -->
+                <div class="form-group">
+                    <label>4. Select Interested Branches</label>
+                    <input type="text" id="branch-search" class="input-control list-search" placeholder="🔍 Search branches..." oninput="filterList('branch-list', this.value)">
+                    <div class="list-actions">
+                        <button type="button" class="btn-link" onclick="selectAll('branch-list', true)">Select All</button>
+                        <button type="button" class="btn-link" onclick="selectAll('branch-list', false)">Clear All</button>
+                    </div>
+                    <div id="branch-list" class="list-container" style="max-height: 250px;">
+                        {% for branch_code, branch_name in branches.items() %}
+                        <label class="list-item" data-text="{{ branch_name.lower() }} {{ branch_code.lower() }}">
+                            <input type="checkbox" name="branches" value="{{ branch_code }}"> {{ branch_name }} ({{ branch_code }})
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit">🔍 Predict Colleges</button>
+            </form>
+        </div>
+
+        <!-- Output Dashboard -->
+        <div class="card" id="output-panel">
+            <div id="placeholder-panel" class="placeholder-message">
+                <h3>Welcome!</h3>
+                <p>Fill out the prediction inputs on the left and click <strong>Predict Colleges</strong> to show your recommendations.</p>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader-panel" class="loader-container">
+                <div class="loader"></div>
+                <p>Loading dataset and predicting options with AI model...</p>
+            </div>
+
+            <!-- Results Data (Hidden by default) -->
+            <div id="results-panel" style="display: none;">
+                <div class="stats-summary">
+                    <div class="stat-card">
+                        <h4>Total Matched</h4>
+                        <p id="stat-total">0</p>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--safe-color);">
+                        <h4>🟢 Safe</h4>
+                        <p id="stat-safe" style="color: var(--safe-color);">0</p>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--moderate-color);">
+                        <h4>🟡 Moderate</h4>
+                        <p id="stat-moderate" style="color: var(--moderate-color);">0</p>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--dream-color);">
+                        <h4>🔴 Dream</h4>
+                        <p id="stat-dream" style="color: var(--dream-color);">0</p>
+                    </div>
+                </div>
+
+                <div class="results-header">
+                    <div class="results-title">🎯 Matching Colleges</div>
+                    <div class="search-box-container">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="input-control results-search" id="results-filter" placeholder="Search results..." oninput="filterTable(this.value)">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="colleges-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">Code ⇅</th>
+                                <th onclick="sortTable(1)">College Name ⇅</th>
+                                <th onclick="sortTable(2)">District ⇅</th>
+                                <th onclick="sortTable(3)">Place ⇅</th>
+                                <th onclick="sortTable(4)">Branch ⇅</th>
+                                <th onclick="sortTable(5)">Cutoff Rank ⇅</th>
+                                <th onclick="sortTable(6)">Admission Chance ⇅</th>
+                            </tr>
+                        </thead>
+                        <tbody id="colleges-tbody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Global predictions store to handle sorting & search filters
+    let currentPredictions = [];
+    let sortDirections = [true, true, true, true, true, true, true]; // Track ascending/descending
+
+    function selectAll(containerId, isChecked) {
+        const checkboxes = document.querySelectorAll(`#${containerId} input[type="checkbox"]`);
+        checkboxes.forEach(cb => {
+            // Only check visible ones if filtering is happening
+            if (cb.closest('.list-item').style.display !== 'none') {
+                cb.checked = isChecked;
+            }
+        });
+    }
+
+    function filterList(containerId, query) {
+        const lowerQuery = query.toLowerCase().trim();
+        const items = document.querySelectorAll(`#${containerId} .list-item`);
+        items.forEach(item => {
+            const text = item.getAttribute('data-text');
+            if (text.includes(lowerQuery)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // Dynamic Predict Submit
+    document.getElementById('predictor-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Show loader, hide others
+        document.getElementById('placeholder-panel').style.display = 'none';
+        document.getElementById('results-panel').style.display = 'none';
+        document.getElementById('loader-panel').style.display = 'block';
+
+        // Gather checked districts
+        const districts = [];
+        document.querySelectorAll('input[name="districts"]:checked').forEach(cb => districts.push(cb.value));
+
+        // Gather checked branches
+        const branches = [];
+        document.querySelectorAll('input[name="branches"]:checked').forEach(cb => branches.push(cb.value));
+
+        const formData = {
+            rank: parseInt(document.getElementById('rank').value),
+            caste: document.getElementById('caste').value,
+            gender: document.querySelector('input[name="gender"]:checked').value,
+            districts: districts,
+            branches: branches
+        };
+
+        fetch('/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            currentPredictions = data;
+            renderResults(data);
+        })
+        .catch(err => {
+            console.error('Error fetching prediction:', err);
+            alert('An error occurred during prediction. Check server log.');
+            resetLoader();
+        });
+    });
+
+    function resetLoader() {
+        document.getElementById('loader-panel').style.display = 'none';
+        document.getElementById('placeholder-panel').style.display = 'block';
+    }
+
+    function renderResults(data) {
+        document.getElementById('loader-panel').style.display = 'none';
+        document.getElementById('results-panel').style.display = 'block';
+        document.getElementById('results-filter').value = ''; // Reset filter
+
+        // Calculate stats
+        const total = data.length;
+        const safe = data.filter(c => c.chance_class === 'safe').length;
+        const moderate = data.filter(c => c.chance_class === 'moderate').length;
+        const dream = data.filter(c => c.chance_class === 'dream').length;
+
+        document.getElementById('stat-total').innerText = total;
+        document.getElementById('stat-safe').innerText = safe;
+        document.getElementById('stat-moderate').innerText = moderate;
+        document.getElementById('stat-dream').innerText = dream;
+
+        populateTable(data);
+    }
+
+    function populateTable(items) {
+        const tbody = document.getElementById('colleges-tbody');
+        tbody.innerHTML = '';
+
+        if (items.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:40px;">No colleges match your rank and filter criteria.</td></tr>`;
+            return;
+        }
+
+        items.forEach(item => {
+            const tr = document.createElement('tr');
+            
+            const badgeClass = `badge-${item.chance_class}`;
+            const cutoffText = item.cutoff_actual ? item.cutoff_actual.toLocaleString() : `${item.cutoff_predicted.toLocaleString()}`;
+            const aiBadge = item.ai_imputed ? '<span class="badge badge-ai" title="Predicted by AI model due to missing historical cutoff">AI Pred</span>' : '';
+
+            tr.innerHTML = `
+                <td style="font-weight:600;color:var(--primary);">${item.college_code}</td>
+                <td style="font-weight:500;">${item.college_name}</td>
+                <td>${item.district}</td>
+                <td>${item.place}</td>
+                <td>${item.branch}</td>
+                <td>${cutoffText} ${aiBadge}</td>
+                <td><span class="badge ${badgeClass}">${item.chance}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Client-side filtering
+    function filterTable(query) {
+        const lowerQuery = query.toLowerCase().trim();
+        const filtered = currentPredictions.filter(item => {
+            return item.college_code.toLowerCase().includes(lowerQuery) ||
+                   item.college_name.toLowerCase().includes(lowerQuery) ||
+                   item.place.toLowerCase().includes(lowerQuery) ||
+                   item.district.toLowerCase().includes(lowerQuery) ||
+                   item.branch.toLowerCase().includes(lowerQuery);
+        });
+        populateTable(filtered);
+    }
+
+    // Client-side sorting
+    function sortTable(columnIndex) {
+        const asc = sortDirections[columnIndex];
+        sortDirections[columnIndex] = !asc; // toggle
+
+        currentPredictions.sort((a, b) => {
+            let valA, valB;
+            
+            switch(columnIndex) {
+                case 0: valA = a.college_code; valB = b.college_code; break;
+                case 1: valA = a.college_name; valB = b.college_name; break;
+                case 2: valA = a.district; valB = b.district; break;
+                case 3: valA = a.place; valB = b.place; break;
+                case 4: valA = a.branch; valB = b.branch; break;
+                case 5: 
+                    valA = a.cutoff_actual || a.cutoff_predicted;
+                    valB = b.cutoff_actual || b.cutoff_predicted;
+                    break;
+                case 6: valA = a.chance; valB = b.chance; break;
+                default: valA = ''; valB = '';
+            }
+
+            if (typeof valA === 'string') {
+                return asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            } else {
+                return asc ? valA - valB : valB - valA;
+            }
+        });
+
+        // Maintain current search filter when sorting
+        const query = document.getElementById('results-filter').value;
+        filterTable(query);
+    }
+</script>
+</body>
+</html>
