@@ -321,8 +321,8 @@ def predict():
                 "effective_cutoff": effective_cutoff
             })
             
-    # Sort results by effective cutoff ascending (closest / hardest first)
-    results = sorted(results, key=lambda x: x['effective_cutoff'])
+    # Sort results by college code alphabetically
+    results = sorted(results, key=lambda x: x['college_code'])
     return jsonify(results)
 
 if __name__ == '__main__':
